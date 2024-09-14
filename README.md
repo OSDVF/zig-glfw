@@ -1,5 +1,8 @@
 Perfected GLFW bindings for Zig
 
+## Installation
+`zig fetch --save git+https://github.com/griush/zig-glfw`.
+
 ## Features
 
 * Zero-fuss installation, cross-compilation at the flip of a switch, and broad platform support.
