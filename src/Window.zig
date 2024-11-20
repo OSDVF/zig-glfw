@@ -1678,8 +1678,8 @@ pub inline fn setInputMode(self: Window, mode: InputMode, value: anytype) void {
     const T = @TypeOf(value);
     std.debug.assert(switch (mode) {
         .cursor => switch (@typeInfo(T)) {
-            .@"enum" => T == InputModeCursor,
-            .enum_literal => @hasField(InputModeCursor, @tagName(value)),
+            .Enum => T == InputModeCursor,
+            .EnumLiteral => @hasField(InputModeCursor, @tagName(value)),
             else => false,
         },
         .sticky_keys => T == bool,
@@ -1688,8 +1688,8 @@ pub inline fn setInputMode(self: Window, mode: InputMode, value: anytype) void {
         .raw_mouse_motion => T == bool,
     });
     const int_value: c_int = switch (@typeInfo(T)) {
-        .@"enum",
-        .enum_literal,
+        .Enum,
+        .EnumLiteral,
         => @intFromEnum(@as(InputModeCursor, value)),
         else => @intFromBool(value),
     };
@@ -2155,27 +2155,27 @@ inline fn hint(h: Hint, value: anytype) void {
     const value_type_info: std.builtin.Type = @typeInfo(value_type);
 
     switch (value_type_info) {
-        .int, .comptime_int => {
+        .Int, .ComptimeInt => {
             c.glfwWindowHint(@intFromEnum(h), @as(c_int, @intCast(value)));
         },
-        .bool => {
+        .Bool => {
             const int_value = @intFromBool(value);
             c.glfwWindowHint(@intFromEnum(h), @as(c_int, @intCast(int_value)));
         },
-        .@"enum" => {
+        .Enum => {
             const int_value = @intFromEnum(value);
             c.glfwWindowHint(@intFromEnum(h), @as(c_int, @intCast(int_value)));
         },
-        .array => |arr_type| {
+        .Array => |arr_type| {
             if (arr_type.child != u8) {
                 @compileError("expected array of u8, got " ++ @typeName(arr_type));
             }
             c.glfwWindowHintString(@intFromEnum(h), &value[0]);
         },
-        .pointer => |pointer_info| {
+        .Pointer => |pointer_info| {
             const pointed_type = @typeInfo(pointer_info.child);
             switch (pointed_type) {
-                .array => |arr_type| {
+                .Array => |arr_type| {
                     if (arr_type.child != u8) {
                         @compileError("expected pointer to array of u8, got " ++ @typeName(arr_type));
                     }
