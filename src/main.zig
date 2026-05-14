@@ -520,14 +520,14 @@ pub fn basicTest() !void {
     };
     defer window.destroy();
 
-    const start = std.time.milliTimestamp();
-    while (std.time.milliTimestamp() < start + 1000 and !window.shouldClose()) {
+    const start = std.Io.Clock.now(.awake, std.testing.io);
+    while (start.untilNow(std.testing.io, .awake).toMilliseconds() < 1000 and !window.shouldClose()) {
         c.glfwPollEvents();
     }
 }
 
 test {
-    std.testing.refAllDeclsRecursive(@This());
+    std.testing.refAllDecls(@This());
 }
 
 test "getVersionString" {
@@ -538,7 +538,7 @@ test "getVersionString" {
 test "init" {
     _ = init(.{ .cocoa_chdir_resources = true });
     if (getErrorString()) |err| {
-        std.log.err("failed to initialize GLFW: {?s}", .{err});
+        std.log.err("failed to initialize GLFW: {s}", .{err});
         std.process.exit(1);
     }
     defer terminate();

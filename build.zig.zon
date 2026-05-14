@@ -1,7 +1,7 @@
 .{
     .name = .zig_glfw,
     .version = "0.2.0",
-    .fingerprint = 0xf3d4e9bfbbb8d826,
+    .fingerprint = 0xf3d4e9bf85ab7495,
     .paths = .{
         "src/",
         "build.zig",
@@ -10,5 +10,11 @@
         "LICENSE-APACHE",
         "LICENSE-MIT",
         "README.md",
+    },
+    .dependencies = .{
+        .glfw = .{
+            .url = "https://github.com/AshishBhattarai/glfw/archive/79ee9605c6530cac82c6dab9aaf7941ae81a6615.tar.gz",
+            .hash = "glfw-0.0.0-lD0VFkitGQC-WaZChkd1mwPs4pYAxSvQi1apEUYAPpLd",
+        },
     },
 }
